@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Calculator | Nikshith Tools</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .calculator { max-width: 400px; margin:50px auto; padding:20px; background:#fff; border-radius:10px; box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+  .calc-display { width:100%; padding:15px; font-size:24px; text-align:right; border-radius:5px; border:1px solid #ccc; margin-bottom:15px; transition:0.3s; }
+  .calc-buttons { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .calc-buttons button { padding:15px; font-size:18px; border:none; border-radius:5px; cursor:pointer; transition:0.2s; background:#64ffda; color:#0a192f; }
+  .calc-buttons button:hover { transform:scale(1.05); background:#45e0c1; }
+  .clear { background:#ff6b6b; color:white; grid-column: span 4; }
+</style>
+</head>
+<body>
+<header>
+<nav class="navbar">
+  <div class="logo">Nikshith<span>Tools</span></div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="timer.html">Timer</a></li>
+    <li><a href="password.html">Password Generator</a></li>
+    <li><button id="dark-toggle">🌙</button></li>
+  </ul>
+</nav>
+</header>
+
+<section class="tool-section">
+  <h2>Advanced Calculator</h2>
+  <div class="calculator">
+    <input type="text" id="calc-display" class="calc-display" disabled placeholder="0">
+    <div class="calc-buttons">
+      <button onclick="appendValue('7')">7</button>
+      <button onclick="appendValue('8')">8</button>
+      <button onclick="appendValue('9')">9</button>
+      <button onclick="appendValue('/')">÷</button>
+
+      <button onclick="appendValue('4')">4</button>
+      <button onclick="appendValue('5')">5</button>
+      <button onclick="appendValue('6')">6</button>
+      <button onclick="appendValue('*')">×</button>
+
+      <button onclick="appendValue('1')">1</button>
+      <button onclick="appendValue('2')">2</button>
+      <button onclick="appendValue('3')">3</button>
+      <button onclick="appendValue('-')">−</button>
+
+      <button onclick="appendValue('0')">0</button>
+      <button onclick="appendValue('.')">.</button>
+      <button onclick="calculate()">=</button>
+      <button onclick="appendValue('+')">+</button>
+
+      <button onclick="clearDisplay()" class="clear">C</button>
+    </div>
+  </div>
+</section>
+
+<script>
+  const display = document.getElementById('calc-display');
+
+  function appendValue(val){
+    if(display.value.length < 20) display.value += val;
+  }
+
+  function calculate(){
+    try {
+      let result = eval(display.value);
+      display.value = Math.round(result*1000000)/1000000; // Limit decimals
+    } catch {
+      display.value = "Error";
+      setTimeout(() => display.value='', 1000);
+    }
+  }
+
+  function clearDisplay(){ display.value=''; }
+
+  // Dark mode
+  const toggleBtn = document.getElementById('dark-toggle');
+  toggleBtn.addEventListener('click', () => document.body.classList.toggle('dark-mode'));
+</script>
+</body>
+</html>
