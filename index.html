@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nikshith Tools</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <nav class="navbar">
+    <div class="logo">Nikshith<span>Tools</span></div>
+    <ul class="nav-links">
+      <a href="nikshithai.html">NikshithAI 🤖</a>
+      <li><a href="calculator.html">Calculator</a></li>
+      <li><a href="password.html">Password Generator</a></li>
+      <li><button id="dark-toggle">🌙</button></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Welcome to Nikshith's Mini Tools Hub</h1>
+  <p>Explore practical tools with a modern interface and responsive design.</p>
+  <button onclick="scrollToTools()">Explore Tools ↓</button>
+</section>
+
+<section class="about-me">
+  <h2>About Me</h2>
+  <p>Hi! I'm Nikshith Sharma, a web developer building interactive tools and web apps.</p>
+</section>
+
+<footer>
+  <p>© 2025 Nikshith Sharma | Built with ❤</p>
+</footer>
+
+<script>
+function scrollToTools(){
+  document.getElementById('tools').scrollIntoView({behavior:'smooth'});
+}
+document.getElementById('dark-toggle').addEventListener('click', ()=> document.body.classList.toggle('dark-mode'));
+</script>
+
+  </div>
+</section>
+
+
+
+</body>
+</html>
