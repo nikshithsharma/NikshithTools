@@ -4,44 +4,61 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NikshithAI</title>
+
   <style>
+    /* ========== BASE STYLES ========== */
+    * { box-sizing: border-box; }
     body {
-      background-color: #0b1622;
-      color: white;
+      margin: 0;
       font-family: 'Poppins', sans-serif;
+      background-color: #0b1622;
+      color: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      margin: 0;
     }
 
     .chatbot-container {
-      background: #0f1e33;
-      border: 2px solid #00aaff;
-      border-radius: 20px;
-      width: 90%;
-      max-width: 700px;
+      width: 95%;
+      max-width: 750px;
       height: 85vh;
+      background: #0f1e33;
+      border-radius: 20px;
+      border: 2px solid #00aaff;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 0 25px #0088ff66;
       overflow: hidden;
+      box-shadow: 0 0 25px #0088ff66;
+      transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
     }
 
+    /* HEADER */
     .chatbot-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       background: #09111d;
+      padding: 14px 20px;
+      border-bottom: 1px solid #00aaff33;
       color: #00aaff;
       font-weight: 600;
-      padding: 14px;
-      text-align: center;
-      border-bottom: 1px solid #00aaff33;
       font-size: 20px;
+    }
+
+    .mode-select {
+      background: transparent;
+      border: 1px solid #00aaff66;
+      color: #00aaff;
+      padding: 6px 10px;
+      border-radius: 10px;
+      font-size: 14px;
+      cursor: pointer;
     }
 
     .chatbot-body {
       flex: 1;
-      padding: 12px;
+      padding: 15px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
@@ -49,17 +66,13 @@
       scroll-behavior: smooth;
     }
 
-    .bot-message, .user-message {
-      padding: 10px 14px;
-      border-radius: 15px;
+    .user-message, .bot-message {
       max-width: 75%;
+      padding: 10px 14px;
+      border-radius: 14px;
       line-height: 1.5;
       animation: fadeIn 0.3s ease;
-    }
-
-    .bot-message {
-      background: #132b44;
-      align-self: flex-start;
+      word-wrap: break-word;
     }
 
     .user-message {
@@ -67,13 +80,19 @@
       align-self: flex-end;
     }
 
+    .bot-message {
+      background: #132b44;
+      align-self: flex-start;
+    }
+
+    /* INPUT BAR */
     .chatbot-input {
       display: flex;
       align-items: center;
-      padding: 10px;
-      border-top: 1px solid #00aaff33;
-      background: #0c1929;
       gap: 8px;
+      padding: 10px;
+      background: #0c1929;
+      border-top: 1px solid #00aaff33;
     }
 
     .chatbot-input input[type="text"] {
@@ -83,11 +102,11 @@
       border: none;
       outline: none;
       background: #12263f;
-      color: white;
+      color: #fff;
       font-size: 15px;
     }
 
-    .chatbot-input button, .icon-btn {
+    .icon-btn {
       background: #0077ff;
       border: none;
       color: white;
@@ -97,14 +116,9 @@
       transition: 0.2s;
       font-size: 18px;
     }
+    .icon-btn:hover { background: #00aaff; }
 
-    .chatbot-input button:hover, .icon-btn:hover {
-      background: #00aaff;
-    }
-
-    input[type="file"] {
-      display: none;
-    }
+    input[type="file"] { display: none; }
 
     .typing-indicator {
       color: #00aaff;
@@ -117,13 +131,45 @@
       from { opacity: 0; transform: translateY(5px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    /* ========== MODE THEMES ========== */
+    body.friendly .chatbot-container {
+      border-color: #00bfff;
+      box-shadow: 0 0 25px #00bfff66;
+    }
+    body.sarcastic .chatbot-container {
+      border-color: #a020f0;
+      box-shadow: 0 0 25px #a020f066;
+    }
+    body.rude .chatbot-container {
+      border-color: #ff3030;
+      box-shadow: 0 0 25px #ff303066;
+    }
+    body.real .chatbot-container {
+      border-color: #00ffff;
+      box-shadow: 0 0 25px #00ffff66;
+    }
+
+    body.friendly .chatbot-header { color: #00bfff; }
+    body.sarcastic .chatbot-header { color: #a020f0; }
+    body.rude .chatbot-header { color: #ff3030; }
+    body.real .chatbot-header { color: #00ffff; }
   </style>
 </head>
-<body>
+<body class="friendly">
   <div class="chatbot-container">
-    <div class="chatbot-header">🤖 NikshithAI</div>
+    <div class="chatbot-header">
+      🤖 NikshithAI
+      <select id="modeSelect" class="mode-select" title="Switch AI personality">
+        <option value="friendly">Friendly 😄</option>
+        <option value="sarcastic">Sarcastic 😏</option>
+        <option value="rude">Rude 😈</option>
+        <option value="real">Real AI 🤖</option>
+      </select>
+    </div>
+
     <div class="chatbot-body" id="chatbotBody">
-      <div class="bot-message">👋 Hey! I’m <b>NikshithAI</b> — your smart assistant. Try typing, speaking, or uploading a file!</div>
+      <div class="bot-message">👋 Hey! I’m <b>NikshithAI</b> — your smart assistant. Choose a mode and start chatting!</div>
     </div>
 
     <div class="chatbot-input">
@@ -131,147 +177,153 @@
       <input type="file" id="fileInput" />
       <button id="voiceBtn" class="icon-btn" title="Speak">🎤</button>
       <input type="text" id="userInput" placeholder="Type your message..." />
-      <button id="sendBtn" class="icon-btn" title="Send">🔫</button>
+      <button id="sendBtn" class="icon-btn" title="Send">📨</button>
     </div>
   </div>
 
   <script>
-    const chatbotBody = document.getElementById('chatbotBody');
-    const userInput = document.getElementById('userInput');
-    const sendBtn = document.getElementById('sendBtn');
-    const fileInput = document.getElementById('fileInput');
-    const voiceBtn = document.getElementById('voiceBtn');
+    const chatbotBody = document.getElementById("chatbotBody");
+    const userInput = document.getElementById("userInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const fileInput = document.getElementById("fileInput");
+    const voiceBtn = document.getElementById("voiceBtn");
+    const modeSelect = document.getElementById("modeSelect");
 
-    // Add message
+    // --- Local memory ---
+    const learned = JSON.parse(localStorage.getItem("nik_learned") || "{}");
+
+    // --- Reply lists (you can expand them anytime) ---
+    const replies = {
+      friendly: [
+        "Hey buddy! 😊",
+        "That’s awesome!",
+        "Cool vibes today!",
+        "Tell me more about that!",
+        "You're doing great 💪",
+        "Haha nice one 😄",
+        "Love your energy!",
+      ],
+      sarcastic: [
+        "Oh wow, how original. 🙄",
+        "Sure, because that makes *total* sense. 😏",
+        "Oh please, do go on… I'm riveted.",
+        "Bravo, Einstein. 🧠",
+        "Absolutely groundbreaking. Really.",
+      ],
+      rude: [
+        "Did you even think before typing that?",
+        "Yawn… try harder. 😒",
+        "That's the best you've got?",
+        "You talk, I lose brain cells.",
+        "Whatever, genius. 🙄",
+      ],
+    };
+
+    // --- Functions ---
     function addMessage(content, isUser = false) {
-      const msg = document.createElement('div');
-      msg.classList.add(isUser ? 'user-message' : 'bot-message');
+      const msg = document.createElement("div");
+      msg.classList.add(isUser ? "user-message" : "bot-message");
+      msg.innerHTML = content;
       chatbotBody.appendChild(msg);
-
-      if (isUser) {
-        msg.innerHTML = content;
-        chatbotBody.scrollTop = chatbotBody.scrollHeight;
-      } else {
-        typeMessage(msg, content);
-      }
-    }
-
-    // Typing effect
-    function typeMessage(element, text, i = 0) {
-      if (i < text.length) {
-        element.innerHTML += text.charAt(i);
-        chatbotBody.scrollTop = chatbotBody.scrollHeight;
-        setTimeout(() => typeMessage(element, text, i + 1), 35);
-      } else {
-        speak(text.replace(/<[^>]*>?/gm, ''));
-      }
-    }
-
-    // Typing indicator
-    function showTyping() {
-      let typingDiv = document.getElementById('typing');
-      if (!typingDiv) {
-        typingDiv = document.createElement('div');
-        typingDiv.id = 'typing';
-        typingDiv.classList.add('typing-indicator');
-        typingDiv.innerText = 'NikshithAI is typing...';
-        chatbotBody.appendChild(typingDiv);
-      }
       chatbotBody.scrollTop = chatbotBody.scrollHeight;
     }
 
-    function hideTyping() {
-      const typingDiv = document.getElementById('typing');
-      if (typingDiv) typingDiv.remove();
-    }
-
-    // Replies
-    function getAIReply(userMsg) {
-      const name = getUserName();
-      const replies = [
-        `That's interesting, ${name}! Tell me more.`,
-        `Hmm, I’ll think about that 🤔`,
-        `Sounds cool, ${name}!`,
-        `Nice one! What else can I do for you?`,
-        `NikshithAI always has your back 💙`
-      ];
-      return replies[Math.floor(Math.random() * replies.length)];
-    }
-
-    // Save name
-    function getUserName() {
-      return localStorage.getItem('nikUser') || "friend";
-    }
-
-    function detectName(msg) {
-      if (msg.toLowerCase().startsWith("my name is")) {
-        const name = msg.split("is")[1].trim();
-        if (name) {
-          localStorage.setItem('nikUser', name);
-          addMessage(`Nice to meet you, ${name}! 💫`);
+    function typeMessage(text) {
+      const msg = document.createElement("div");
+      msg.classList.add("bot-message");
+      chatbotBody.appendChild(msg);
+      let i = 0;
+      const type = () => {
+        if (i < text.length) {
+          msg.innerHTML += text.charAt(i++);
+          chatbotBody.scrollTop = chatbotBody.scrollHeight;
+          setTimeout(type, 25);
         }
-      }
+      };
+      type();
+      chatbotBody.scrollTop = chatbotBody.scrollHeight;
     }
 
-    // Send message
-    sendBtn.onclick = () => {
+    function randomReply(mode, msg) {
+      const pool = replies[mode];
+      const learnedWords = learned[mode] || [];
+      const combo = pool.concat(learnedWords.map(w => `You again with "${w}"? 😏`));
+      const reply = combo[Math.floor(Math.random() * combo.length)];
+      return reply;
+    }
+
+    // --- Local learning ---
+    function learn(mode, msg) {
+      if (!learned[mode]) learned[mode] = [];
+      const words = msg.split(" ").filter(w => w.length > 3);
+      learned[mode].push(...words.slice(0, 3));
+      learned[mode] = learned[mode].slice(-100); // limit memory
+      localStorage.setItem("nik_learned", JSON.stringify(learned));
+    }
+
+    // --- Sending message ---
+    sendBtn.onclick = async () => {
       const msg = userInput.value.trim();
       if (!msg) return;
+      const mode = modeSelect.value;
       addMessage(msg, true);
-      detectName(msg);
-      userInput.value = '';
+      userInput.value = "";
 
-      showTyping();
-      setTimeout(() => {
-        hideTyping();
-        addMessage(getAIReply(msg));
-      }, 1000);
-    };
-
-    // Enter key
-    userInput.addEventListener('keypress', e => {
-      if (e.key === 'Enter') sendBtn.click();
-    });
-
-    // File upload
-    fileInput.onchange = () => {
-      const file = fileInput.files[0];
-      if (file) {
-        addMessage(`📎 <b>${file.name}</b> uploaded successfully.`, true);
-        setTimeout(() => addMessage("I’ll process that soon!"));
+      if (mode === "real") {
+        typeMessage("⏳ Talking to real AI...");
+        try {
+          const res = await fetch("http://localhost:5000/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: msg }),
+          });
+          const data = await res.json();
+          chatbotBody.lastChild.remove(); // remove "talking" line
+          if (data.reply) typeMessage(data.reply);
+          else typeMessage("⚠️ Server error, please try again later.");
+        } catch {
+          chatbotBody.lastChild.remove();
+          typeMessage("⚠️ Failed to reach backend.");
+        }
+      } else {
+        learn(mode, msg);
+        const reply = randomReply(mode, msg);
+        setTimeout(() => typeMessage(reply), 600);
       }
     };
 
-    // Voice input
+    // --- Keyboard shortcut ---
+    userInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendBtn.click();
+    });
+
+    // --- Voice input ---
     voiceBtn.onclick = () => {
       try {
         const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
         recognition.lang = "en-US";
         recognition.start();
-        recognition.onresult = (event) => {
-          const voiceText = event.results[0][0].transcript;
-          userInput.value = voiceText;
+        recognition.onresult = (e) => {
+          userInput.value = e.results[0][0].transcript;
           sendBtn.click();
         };
-        recognition.onerror = () => addMessage("⚠️ Voice recognition failed. Try again.");
-      } catch (e) {
-        addMessage("🎙️ Sorry, your browser doesn’t support voice input.");
+      } catch {
+        typeMessage("🎙️ Voice input not supported on this browser.");
       }
     };
 
-    // Female voice
-    function speak(text) {
-      const speech = new SpeechSynthesisUtterance(text);
-      speech.lang = 'en-US';
-      speech.pitch = 1.3;
-      speech.rate = 1;
-      const voices = window.speechSynthesis.getVoices();
-      const femaleVoice = voices.find(v => /female|woman|Google US English/i.test(v.name)) || voices[0];
-      if (femaleVoice) speech.voice = femaleVoice;
-      window.speechSynthesis.speak(speech);
-    }
+    // --- File upload ---
+    fileInput.onchange = () => {
+      const file = fileInput.files[0];
+      if (file) addMessage(`📎 <b>${file.name}</b> uploaded.`, true);
+    };
 
-    window.speechSynthesis.onvoiceschanged = () => {};
+    // --- Mode switch ---
+    modeSelect.onchange = () => {
+      document.body.className = modeSelect.value;
+      const mode = modeSelect.options[modeSelect.selectedIndex].text;
+      addMessage(`Switched to <b>${mode}</b> mode.`);
+    };
   </script>
 </body>
 </html>
